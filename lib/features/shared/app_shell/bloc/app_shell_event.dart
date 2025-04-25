@@ -1,10 +1,7 @@
-import 'package:equatable/equatable.dart';
+part of 'app_shell_bloc.dart';
 
-abstract class AppShellEvent extends Equatable {
+sealed class AppShellEvent extends Equatable {
   const AppShellEvent();
-
-  @override
-  List<Object?> get props => [];
 }
 
 class AppShellPageChangedEvent extends AppShellEvent {

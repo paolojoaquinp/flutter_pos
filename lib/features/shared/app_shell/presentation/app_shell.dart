@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/app_shell_bloc.dart';
-import '../bloc/app_shell_event.dart';
-import '../bloc/app_shell_state.dart';
+import 'package:flutter_pos/features/home_screen/presentation/home_screen.dart';
+import 'package:flutter_pos/features/products_screen/presentation/products_screen.dart';
+import 'package:flutter_pos/features/profile_screen/presentation/profile_screen.dart';
+import 'package:flutter_pos/features/shared/app_shell/bloc/app_shell_bloc.dart';
 import 'widgets/nav_bar_item.dart';
-import '../../../home_screen/presentation/home_screen.dart';
-import '../../../search_screen/presentation/search_screen.dart';
-import '../../../profile_screen/presentation/profile_screen.dart';
+
 
 class AppShell extends StatelessWidget {
   const AppShell({super.key});
@@ -15,7 +14,7 @@ class AppShell extends StatelessWidget {
 
   static final List<Widget> _pages = [
     const HomeScreen(),
-    const SearchScreen(),
+    const ProductScreen(),
     const ProfileScreen(),
   ];
 
@@ -60,14 +59,15 @@ class AppShell extends StatelessWidget {
                       // Home Button
                       NavBarItem(
                         icon: Icon(
-                          Icons.home_filled,
+                          state.currentPageIndex == 0
+                           ? Icons.home
+                           : Icons.home_outlined,
                           color: state.currentPageIndex == 0
                               ? const Color(0xFF369F6B)
                               : Colors.grey,
                           size: 28,
                         ),
                         isSelected: state.currentPageIndex == 0,
-                        label: 'Home',
                         onTap: () => context
                             .read<AppShellBloc>()
                             .add(const AppShellPageChangedEvent(0)),
@@ -75,14 +75,15 @@ class AppShell extends StatelessWidget {
                       // Search Button
                       NavBarItem(
                         icon: Icon(
-                          Icons.search,
+                          state.currentPageIndex == 1 
+                            ? Icons.folder
+                            : Icons.folder_outlined,
                           color: state.currentPageIndex == 1
                               ? const Color(0xFF369F6B)
                               : Colors.grey,
                           size: 28,
                         ),
                         isSelected: state.currentPageIndex == 1,
-                        label: 'Search',
                         onTap: () => context
                             .read<AppShellBloc>()
                             .add(const AppShellPageChangedEvent(1)),
@@ -90,14 +91,15 @@ class AppShell extends StatelessWidget {
                       // Profile Button
                       NavBarItem(
                         icon: Icon(
-                          Icons.person,
+                          state.currentPageIndex == 2 
+                          ? Icons.person
+                          : Icons.person_outline,
                           color: state.currentPageIndex == 2
                               ? const Color(0xFF369F6B)
                               : Colors.grey,
                           size: 28,
                         ),
                         isSelected: state.currentPageIndex == 2,
-                        label: 'Profile',
                         onTap: () => context
                             .read<AppShellBloc>()
                             .add(const AppShellPageChangedEvent(2)),

@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 
 class NavBarItem extends StatelessWidget {
   final Widget icon;
-  final bool isSelected;
-  final String label;
+  final bool isSelected; 
   final VoidCallback onTap;
 
   const NavBarItem({
     super.key,
     required this.icon,
     required this.isSelected,
-    required this.label,
     required this.onTap,
   });
 
@@ -23,14 +21,6 @@ class NavBarItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           icon,
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: isSelected ? const Color(0xFF369F6B) : Colors.grey,
-            ),
-          ),
           if (isSelected)
             Container(
               margin: const EdgeInsets.only(top: 4),
@@ -45,4 +35,4 @@ class NavBarItem extends StatelessWidget {
       ),
     );
   }
-} 
+}

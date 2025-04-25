@@ -1,9 +1,14 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'app_shell_event.dart';
-import 'app_shell_state.dart';
+import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+
+part 'app_shell_event.dart';
+part 'app_shell_state.dart';
 
 class AppShellBloc extends Bloc<AppShellEvent, AppShellState> {
-  AppShellBloc() : super(const AppShellState()) {
+  AppShellBloc() : super(AppShellInitial()) {
+    on<AppShellEvent>((event, emit) {
+      // TODO: implement event handler
+    });
     on<AppShellPageChangedEvent>(_onPageChanged);
   }
 
@@ -13,4 +18,4 @@ class AppShellBloc extends Bloc<AppShellEvent, AppShellState> {
   ) {
     emit(state.copyWith(currentPageIndex: event.pageIndex));
   }
-} 
+}
