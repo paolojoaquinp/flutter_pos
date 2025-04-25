@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pos/features/products_screen/presentation/widgets/product_category_card.dart';
 import 'package:flutter_pos/features/products_screen/presentation/widgets/stats_card_widget.dart';
+import 'package:flutter_svg/svg.dart';
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key});
@@ -65,12 +66,22 @@ class ProductScreen extends StatelessWidget {
               ),
               
               const SizedBox(height: 24),
-              const Text(
-                'Productos',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Productos',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    iconSize: 24,
+                    icon: SvgPicture.asset('assets/svgs/icon-filter.svg'),
+                  ),
+                ],
               ),
               const SizedBox(height: 16),
               
