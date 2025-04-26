@@ -20,6 +20,7 @@ class AppShell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final activeColorTab = Theme.of(context).colorScheme.primary;
     return BlocProvider(
       create: (_) => AppShellBloc(),
       child: BlocBuilder<AppShellBloc, AppShellState>(
@@ -63,7 +64,7 @@ class AppShell extends StatelessWidget {
                            ? Icons.home
                            : Icons.home_outlined,
                           color: state.currentPageIndex == 0
-                              ? const Color(0xFF369F6B)
+                              ? activeColorTab
                               : Colors.grey,
                           size: 28,
                         ),
@@ -79,7 +80,7 @@ class AppShell extends StatelessWidget {
                             ? Icons.folder
                             : Icons.folder_outlined,
                           color: state.currentPageIndex == 1
-                              ? const Color(0xFF369F6B)
+                              ? activeColorTab
                               : Colors.grey,
                           size: 28,
                         ),
@@ -95,7 +96,7 @@ class AppShell extends StatelessWidget {
                           ? Icons.person
                           : Icons.person_outline,
                           color: state.currentPageIndex == 2
-                              ? const Color(0xFF369F6B)
+                              ? activeColorTab
                               : Colors.grey,
                           size: 28,
                         ),

@@ -76,30 +76,15 @@ class _Body extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 24),
-
-                  // Stats Cards
-                  const Row(
-                    children: [
-                      Expanded(
-                        child: StatsCard(
-                          title: 'Total Productos',
-                          value: '128',
-                          percentage: '+8.00%',
-                          isPositive: true,
-                        ),
-                      ),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: StatsCard(
-                          title: 'Productos en mano',
-                          value: '2,350',
-                          percentage: '+2.34%',
-                          isPositive: true,
-                        ),
-                      ),
-                    ],
+                  const SizedBox(
+                    width: double.maxFinite,
+                    child: StatsCard(
+                      title: 'Total Productos:',
+                      value: '128',
+                      percentage: '+8.00%',
+                      isPositive: true,
+                    ),
                   ),
-
                   const SizedBox(height: 24),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,10 +96,21 @@ class _Body extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        iconSize: 24,
-                        icon: SvgPicture.asset('assets/svgs/icon-filter.svg'),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            iconSize: 24,
+                            icon: SvgPicture.asset('assets/svgs/icon-filter.svg'),
+                          ),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              // TODO: Navigate to add category screen
+                            },
+                            icon: const Icon(Icons.add, size: 20),
+                            label: const Text('Añadir categoría'),
+                          ),
+                        ],
                       ),
                     ],
                   ),
