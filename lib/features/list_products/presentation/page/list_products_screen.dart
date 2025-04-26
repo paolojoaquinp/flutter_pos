@@ -5,7 +5,7 @@ import 'package:flutter_pos/core/config/api_config.dart';
 import 'package:flutter_pos/features/list_products/data/repositories_impl/product_repository_impl.dart';
 import 'package:flutter_pos/features/list_products/presentation/bloc/list_products_bloc.dart';
 import 'package:flutter_pos/features/products_screen/domain/entities/category_entity.dart';
-import 'package:flutter_pos/features/products_screen/domain/entities/product_entity.dart';
+import 'package:flutter_pos/features/list_products/domain/entities/product_entity.dart';
 
 class ListProductsScreen extends StatelessWidget {
   static const String route = '/list-products';

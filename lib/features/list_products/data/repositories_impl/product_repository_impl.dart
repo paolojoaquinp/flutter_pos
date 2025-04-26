@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_pos/features/list_products/data/models/product_model.dart';
 import 'package:flutter_pos/features/list_products/domain/repositories/product_repository.dart';
-import 'package:flutter_pos/features/products_screen/domain/entities/product_entity.dart';
+import 'package:flutter_pos/features/list_products/domain/entities/product_entity.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
   final Dio dio;

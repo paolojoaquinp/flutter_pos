@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_pos/features/list_products/domain/repositories/product_repository.dart';
-import 'package:flutter_pos/features/products_screen/domain/entities/product_entity.dart';
+import 'package:flutter_pos/features/list_products/domain/entities/product_entity.dart';
 
 part 'list_products_event.dart';
 part 'list_products_state.dart';
