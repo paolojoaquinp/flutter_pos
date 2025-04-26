@@ -4,15 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_pos/core/config/api_config.dart';
 import 'package:flutter_pos/features/list_products/data/repositories_impl/product_repository_impl.dart';
 import 'package:flutter_pos/features/list_products/presentation/bloc/list_products_bloc.dart';
-import 'package:flutter_pos/features/products_screen/domain/entities/category_entity.dart';
+import 'package:flutter_pos/features/products_screen/data/models/category_model.dart';
 import 'package:flutter_pos/features/list_products/domain/entities/product_entity.dart';
 
 class ListProductsScreen extends StatelessWidget {
   static const String route = '/list-products';
 
-  final CategoryEntity category;
+  final CategoryModel category;
 
-  const ListProductsScreen({super.key,
+  const ListProductsScreen({
+    super.key,
     required this.category,
   });
 
@@ -25,13 +26,16 @@ class ListProductsScreen extends StatelessWidget {
           baseUrl: ApiConfig.baseUrl,
         ),
       )..add(FetchProductsByCategoryEvent(categoryId: category.id)),
-      child: const _ListProductsPage(),
+      child: _Page(category: category,),
     );
   }
 }
 
-class _ListProductsPage extends StatelessWidget {
-  const _ListProductsPage();
+class _Page extends StatelessWidget {
+  final CategoryModel category;
+  const _Page({
+    required this.category,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +54,41 @@ class _ListProductsPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: const _ListProductsBody(),
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  category.nombre,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    // TODO: Navigate to add product screen
+                  },
+                  icon: const Icon(Icons.add, size: 20,),
+                  label: const Text('Añadir producto'),
+                ),
+              ),
+            ],
+          ),
+          const Expanded(
+            child: _Body(),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class _ListProductsBody extends StatelessWidget {
-  const _ListProductsBody();
+class _Body extends StatelessWidget {
+  const _Body();
 
   @override
   Widget build(BuildContext context) {
