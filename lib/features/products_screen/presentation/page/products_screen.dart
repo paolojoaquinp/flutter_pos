@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_pos/core/config/api_config.dart';
+import 'package:flutter_pos/features/list_products/presentation/page/list_products_screen.dart';
 import 'package:flutter_pos/features/products_screen/data/repositories_impl/category_repository_impl.dart';
 import 'package:flutter_pos/features/products_screen/presentation/bloc/products_bloc.dart';
 import 'package:flutter_pos/features/products_screen/presentation/page/widgets/product_category_card.dart';
@@ -126,12 +127,22 @@ class _Body extends StatelessWidget {
                           itemCount: state.categories.length,
                           itemBuilder: (context, index) {
                             final category = state.categories[index];
-                            return ProductCategoryCard(
-                              color: Colors.green.shade50,
-                              title: category.nombre,
-                              // positiveCount: 267,
-                              // negativeCount: 140,
-                              margin: EdgeInsets.only(bottom: 10),
+                            return GestureDetector(
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ListProductsScreen(
+                                    category: category,
+                                  ),
+                                ),
+                              ),
+                              child: ProductCategoryCard(
+                                color: Colors.green.shade50,
+                                title: category.nombre,
+                                // positiveCount: 267,
+                                // negativeCount: 140,
+                                margin: EdgeInsets.only(bottom: 10),
+                              ),
                             );
                           },
                         ),

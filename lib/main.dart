@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         AppShell.route: (_) => const AppShell(),
+        // ListProductsScreen.route: (_) => ListProductsScreen(),
       },
     );
   }
