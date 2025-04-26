@@ -18,9 +18,8 @@ class CategoryRepositoryImpl implements CategoryRepository {
   Future<Result<List<CategoryModel>, DioException>> getAllCategories() async {
     try {
       final response = await _dio.get('$_baseUrl/api/categories');
-      
       if (response.statusCode == 200) {
-        final List<dynamic> data = response.data;
+        final List<dynamic> data = response.data['data'];
         final categories = data.map((item) => CategoryModel.fromJson(item)).toList();
         return Result.ok(categories);
       } else {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_pos/features/home_screen/presentation/home_screen.dart';
-import 'package:flutter_pos/features/products_screen/presentation/products_screen.dart';
+import 'package:flutter_pos/features/products_screen/presentation/page/products_screen.dart';
 import 'package:flutter_pos/features/profile_screen/presentation/profile_screen.dart';
 import 'package:flutter_pos/features/shared/app_shell/bloc/app_shell_bloc.dart';
 import 'widgets/nav_bar_item.dart';

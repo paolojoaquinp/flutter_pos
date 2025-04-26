@@ -3,22 +3,25 @@ import 'package:flutter/material.dart';
 class ProductCategoryCard extends StatelessWidget {
   final Color color;
   final String title;
-  final int positiveCount;
-  final int negativeCount;
+  final int? positiveCount;
+  final int? negativeCount;
   final String? tag;
+  final EdgeInsetsGeometry? margin;
 
   const ProductCategoryCard({
     super.key,
     required this.color,
     required this.title,
-    required this.positiveCount,
-    required this.negativeCount,
+    this.positiveCount,
+    this.negativeCount,
     this.tag,
+    this.margin,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: margin,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -80,24 +83,26 @@ class ProductCategoryCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_upward,
-                            size: 14,
-                            color: Colors.green,
-                          ),
-                          const SizedBox(width: 2),
-                          Text(
-                            positiveCount.toString(),
-                            style: TextStyle(
-                              fontSize: 12,
+                      if(positiveCount != null)
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.arrow_upward,
+                              size: 14,
                               color: Colors.green,
                             ),
-                          ),
-                        ],
-                      ),
+                            const SizedBox(width: 2),
+                            Text(
+                              positiveCount.toString(),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.green,
+                              ),
+                            ),
+                          ],
+                        ),
                       const SizedBox(width: 12),
+                      if(negativeCount != null)
                       Row(
                         children: [
                           Icon(
