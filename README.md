@@ -1,5 +1,8 @@
 # Flutter POS
 
+**VIDEO EXPLICATIVO:** https://drive.google.com/file/d/1Dt4yC0m99k_p6ia13DjnDr-hRsmVaCU3/view?usp=sharing
+
+
 Una moderna aplicación de Punto de Venta construida con Flutter, que cuenta con una arquitectura limpia y una interfaz de usuario interactiva para la gestión de productos.
 
 ## Capturas de pantalla
