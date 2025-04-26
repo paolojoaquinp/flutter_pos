@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_pos/core/config/api_config.dart';
 import 'package:flutter_pos/features/list_products/presentation/page/list_products_screen.dart';
 import 'package:flutter_pos/features/products_screen/data/repositories_impl/category_repository_impl.dart';
+import 'package:flutter_pos/features/products_screen/domain/entities/category_entity.dart';
 import 'package:flutter_pos/features/products_screen/presentation/bloc/products_bloc.dart';
+import 'package:flutter_pos/features/products_screen/presentation/children/category_form/presentation/category_form_screen.dart';
 import 'package:flutter_pos/features/products_screen/presentation/page/widgets/product_category_card.dart';
 import 'package:flutter_pos/features/products_screen/presentation/page/widgets/stats_card_widget.dart';
 import 'package:flutter_svg/svg.dart';
@@ -31,7 +33,27 @@ class _Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _Body();
+    return BlocListener<ProductsBloc, ProductsState>(
+      listener: (context, state) {
+        if(state is CategoryAddedSuccessState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Categoría agregada exitosamente'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+        if (state is CategoriesErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      child: const _Body(),
+    );
   }
 }
 
@@ -101,11 +123,28 @@ class _Body extends StatelessWidget {
                           IconButton(
                             onPressed: () {},
                             iconSize: 24,
-                            icon: SvgPicture.asset('assets/svgs/icon-filter.svg'),
+                            icon:
+                                SvgPicture.asset('assets/svgs/icon-filter.svg'),
                           ),
                           ElevatedButton.icon(
                             onPressed: () {
-                              // TODO: Navigate to add category screen
+                              final ProductsBloc bloc = context.read<ProductsBloc>();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BlocProvider.value(
+                                    value: bloc,
+                                    child: CategoryFormScreen(
+                                      onSubmit: (CategoryEntity category) {
+                                        context.select((ProductsBloc bloc) => bloc.add(
+                                              AddCategoryEvent(
+                                                  category: category),
+                                            ));
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              );
                             },
                             icon: const Icon(Icons.add, size: 20),
                             label: const Text('Añadir categoría'),
@@ -146,7 +185,9 @@ class _Body extends StatelessWidget {
                     )
                   else
                     Expanded(
-                      child: Center(child: CircularProgressIndicator(),),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     ),
                   // Product Categories List
                   // ProductCategoryCard(

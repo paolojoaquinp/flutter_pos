@@ -20,6 +20,15 @@ final class CategoriesLoadedState extends ProductsState {
   List<Object> get props => [categories];
 }
 
+final class CategoryAddedSuccessState extends ProductsState {
+  final CategoryModel category;
+
+  const CategoryAddedSuccessState({required this.category});
+
+  @override
+  List<Object> get props => [category];
+}
+
 final class CategoriesErrorState extends ProductsState {
   final String message;
 
