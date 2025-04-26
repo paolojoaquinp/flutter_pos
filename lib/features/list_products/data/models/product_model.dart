@@ -15,14 +15,14 @@ class ProductModel extends ProductEntity {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['producto_id'],
-      codigo: json['codigo'],
-      nombre: json['nombre'],
-      descripcion: json['descripcion'],
-      precioCompra: double.parse(json['precio_compra'].toString()),
-      precioVenta: double.parse(json['precio_venta'].toString()),
-      categoriaId: json['categoria_id'],
-      imagenUrl: json['imagen_url'],
+      id: json['producto_id'] as int,
+      codigo: json['codigo'] as String,
+      nombre: json['nombre'] as String,
+      descripcion: json['descripcion'] as String?,
+      precioCompra: double.parse(json['precio_compra']), // Already comes as String
+      precioVenta: double.parse(json['precio_venta']), // Already comes as String
+      categoriaId: json['categoria_id'] as int,
+      imagenUrl: json['imagen_url'] as String?,
       fechaCreacion: json['fecha_creacion'] != null 
           ? DateTime.parse(json['fecha_creacion']) 
           : null,
@@ -31,7 +31,6 @@ class ProductModel extends ProductEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      'producto_id': id,
       'codigo': codigo,
       'nombre': nombre,
       'descripcion': descripcion,

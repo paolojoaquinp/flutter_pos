@@ -13,3 +13,12 @@ class FetchProductsByCategoryEvent extends ListProductsEvent {
   @override
   List<Object?> get props => [categoryId];
 }
+
+class AddProductEvent extends ListProductsEvent {
+  final ProductModel product;
+
+  const AddProductEvent({required this.product});
+
+  @override
+  List<Object?> get props => [product];
+}

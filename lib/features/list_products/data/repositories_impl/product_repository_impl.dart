@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:oxidized/oxidized.dart';
 import 'package:flutter_pos/features/list_products/data/models/product_model.dart';
 import 'package:flutter_pos/features/list_products/domain/repositories/product_repository.dart';
 import 'package:flutter_pos/features/list_products/domain/entities/product_entity.dart';
@@ -42,6 +43,44 @@ class ProductRepositoryImpl implements ProductRepository {
       }
     } catch (e) {
       throw Exception('Error fetching product: $e');
+    }
+  }
+  
+  @override
+  Future<Result<ProductModel, DioException>> createProduct(ProductModel product) async {
+    try {
+      final productModel = ProductModel(
+              id: product.id,
+              codigo: product.codigo,
+              nombre: product.nombre,
+              descripcion: product.descripcion,
+              precioCompra: product.precioCompra,
+              precioVenta: product.precioVenta,
+              categoriaId: product.categoriaId,
+              imagenUrl: product.imagenUrl,
+              fechaCreacion: DateTime.now(),
+            );
+      
+      final response = await dio.post(
+        '$baseUrl/api/products',
+        data: productModel.toJson(),
+      );
+      
+      if (response.statusCode == 201) {
+        return Result.ok(ProductModel.fromJson(response.data['data']));
+      } else {
+        return Result.err(DioException(
+          requestOptions: RequestOptions(path: '$baseUrl/api/products'),
+          error: 'Failed to create product: ${response.statusCode}',
+        ));
+      }
+    } on DioException catch (e) {
+      return Result.err(e);
+    } catch (e) {
+      return Result.err(DioException(
+        requestOptions: RequestOptions(path: '$baseUrl/api/products'),
+        error: 'Error creating product: $e',
+      ));
     }
   }
 } 

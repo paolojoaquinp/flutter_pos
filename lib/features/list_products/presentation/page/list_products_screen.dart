@@ -6,6 +6,7 @@ import 'package:flutter_pos/features/list_products/data/repositories_impl/produc
 import 'package:flutter_pos/features/list_products/presentation/bloc/list_products_bloc.dart';
 import 'package:flutter_pos/features/products_screen/data/models/category_model.dart';
 import 'package:flutter_pos/features/list_products/domain/entities/product_entity.dart';
+import 'package:flutter_pos/features/list_products/presentation/page/product_form_screen.dart';
 
 class ListProductsScreen extends StatelessWidget {
   static const String route = '/list-products';
@@ -26,104 +27,138 @@ class ListProductsScreen extends StatelessWidget {
           baseUrl: ApiConfig.baseUrl,
         ),
       )..add(FetchProductsByCategoryEvent(categoryId: category.id)),
-      child: _Page(category: category,),
+      child: _Page(
+        category: category,
+      ),
     );
   }
 }
-
 class _Page extends StatelessWidget {
-  final CategoryModel category;
   const _Page({
     required this.category,
   });
 
+  final CategoryModel category;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: BlocBuilder<ListProductsBloc, ListProductsState>(
-          builder: (context, state) {
-            if (state is ListProductsLoadedState) {
-              return Text('Productos (${state.products.length})');
-            }
-            return const Text('Productos');
-          },
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  category.nombre,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    // TODO: Navigate to add product screen
-                  },
-                  icon: const Icon(Icons.add, size: 20,),
-                  label: const Text('Añadir producto'),
-                ),
-              ),
-            ],
-          ),
-          const Expanded(
-            child: _Body(),
-          ),
-        ],
-      ),
+    return BlocListener<ListProductsBloc, ListProductsState>(
+      listener: (context, state) {
+        if(state is AddProductSuccessState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Producto creado exitosamente'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+        if(state is ListProductsErrorState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      child: _Body(category: category),
     );
   }
 }
 
 class _Body extends StatelessWidget {
-  const _Body();
+  const _Body({
+    required this.category,
+  });
+
+  final CategoryModel category;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ListProductsBloc, ListProductsState>(
-      builder: (context, state) {
-        if (state is ListProductsLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state is ListProductsLoadedState) {
-          return state.products.isEmpty
-              ? const Center(
-                  child: Text('No hay productos en esta categoría'),
-                )
-              : ListView.builder(
-                  padding: const EdgeInsets.all(16.0),
-                  itemCount: state.products.length,
-                  itemBuilder: (context, index) {
-                    return _ProductCard(product: state.products[index]);
-                  },
-                );
-        } else if (state is ListProductsErrorState) {
-          return Center(
-            child: Text(
-              'Error: ${state.message}',
-              style: const TextStyle(color: Colors.red),
+    return Scaffold(
+        appBar: AppBar(
+          title: BlocBuilder<ListProductsBloc, ListProductsState>(
+            builder: (context, state) {
+              if (state is ListProductsLoadedState) {
+                return Text('Productos (${state.products.length})');
+              }
+              return const Text('Productos');
+            },
+          ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context),
+          ),
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      category.nombre,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Navigate to product form screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductFormScreen(
+                            category: category,
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.add,
+                      size: 20,
+                    ),
+                    label: const Text('Añadir producto'),
+                  ),
+                ],
+              ),
             ),
-          );
-        }
-        return const SizedBox.shrink();
-      },
-    );
+            Expanded(
+              child: BlocBuilder<ListProductsBloc, ListProductsState>(
+                builder: (context, state) {
+                  if (state is ListProductsLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is ListProductsLoadedState) {
+                    return state.products.isEmpty
+                        ? const Center(
+                            child: Text('No hay productos en esta categoría'),
+                          )
+                        : ListView.builder(
+                            padding: const EdgeInsets.all(16.0),
+                            itemCount: state.products.length,
+                            itemBuilder: (context, index) {
+                              return _ProductCard(product: state.products[index]);
+                            },
+                          );
+                  } else if (state is ListProductsErrorState) {
+                    return Center(
+                      child: Text(
+                        'Error: ${state.message}',
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                },
+              ),
+            ),
+          ],
+        ),
+      );
   }
 }
-
 class _ProductCard extends StatelessWidget {
   final ProductEntity product;
 

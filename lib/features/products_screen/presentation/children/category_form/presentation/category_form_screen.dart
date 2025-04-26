@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_pos/features/products_screen/domain/entities/category_entity.dart';
 import 'package:flutter_pos/features/products_screen/presentation/bloc/products_bloc.dart';
+import 'package:flutter_pos/features/products_screen/presentation/children/category_form/presentation/widgets/form_field_widget.dart';
 
 class CategoryFormScreen extends StatelessWidget {
   CategoryFormScreen({
@@ -53,17 +54,13 @@ class CategoryFormScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 16),
-                            _buildFormField(
-                              context,
-                              textTheme,
+                            FormFieldWidget(
                               label: 'Nombre',
                               hint: 'Ej: Impresiones',
                               controller: _nameController,
                             ),
                             SizedBox(height: 16),
-                            _buildFormField(
-                              context,
-                              textTheme,
+                            FormFieldWidget(
                               label: 'Descripción',
                               hint: 'Ej: Servicios de impresión de documentos',
                               maxLines: 4,
@@ -157,106 +154,6 @@ class CategoryFormScreen extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildFormField(
-    BuildContext context,
-    TextTheme textTheme, {
-    required String label,
-    required String hint,
-    int maxLines = 1,
-    bool readOnly = false,
-    Widget? suffixIcon,
-    TextEditingController? controller,
-    Function(String)? onChanged,
-  }) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: textTheme.titleLarge?.copyWith(
-                color: Colors.black,
-              ) ??
-              TextStyle(
-                color: Colors.black,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        SizedBox(
-          height: 4,
-        ),
-        TextFormField(
-          controller: controller,
-          readOnly: readOnly,
-          maxLines: maxLines,
-          style: TextStyle(color: Colors.black),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return 'Campo requerido';
-            }
-            return null;
-          },
-          keyboardType:
-              maxLines > 1 ? TextInputType.multiline : TextInputType.text,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.grey[200],
-            floatingLabelBehavior: FloatingLabelBehavior.never,
-            labelText: label,
-            labelStyle: const TextStyle(
-              color: Colors.grey,
-              fontSize: 14,
-            ),
-            hintText: hint,
-            alignLabelWithHint: true,
-            hintStyle: const TextStyle(
-              color: Colors.grey,
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 14.0,
-              vertical: 18.0,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(
-                color: Colors.grey[400]!,
-                width: 1.0,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(
-                color: Theme.of(context).primaryColor,
-                width: 1.0,
-              ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(
-                color: Colors.red,
-                width: 1.0,
-              ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(
-                color: Colors.red,
-                width: 2.0,
-              ),
-            ),
-            suffixIcon: suffixIcon,
-            errorStyle: TextStyle(
-              color: Colors.red,
-              height: 0.5,
-            ),
-          ),
-          onChanged: onChanged,
-        ),
-      ],
     );
   }
 }
